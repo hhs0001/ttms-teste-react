@@ -7,6 +7,8 @@ import {
     Box,
     CssBaseline,
     Toolbar,
+    Card,
+    CardContent,
 } from '@mui/material';
 import { fetchCotacoesStart, fetchCotacoesSuccess, fetchCotacoesFailure } from '../store/cotacoes.js';
 import { logout } from '../store/auth.js';
@@ -75,10 +77,20 @@ export default function HomePage() {
                 isMobile={isMobile}
             />
             <Box component="main" sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
-                <Toolbar /> {/* Espaço para o AppBar */}
+                <Toolbar />
                 <Typography variant="h4" gutterBottom>
                     Bem-vindo, {usuario ? usuario.email : 'Visitante'}!
                 </Typography>
+                <Card sx={{ mb: 2 }}>
+                    <CardContent>
+                        <Typography variant="h5" component="div">
+                            CoinDesk
+                        </Typography>
+                        <Typography variant="body2">
+                            Confira as últimas cotações do Bitcoin.
+                        </Typography>
+                    </CardContent>
+                </Card>
                 <CotacoesComponent cotacoes={cotacoes} isLoading={isLoading} error={error} />
             </Box>
         </Box>

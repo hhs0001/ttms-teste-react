@@ -12,6 +12,7 @@ import { useTheme } from '@mui/material/styles';
 export default function LoginPage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const [emailError, setEmailError] = useState(false);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [open, setOpen] = useState(false);
@@ -20,6 +21,12 @@ export default function LoginPage() {
   const navigate = useNavigate();
 
   const serverStatus = useSelector((state) => state.server.serverStatus);
+
+  const validateEmail = (email) => {
+    //eslint-disable-next-line
+    const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(String(email).toLowerCase());
+  };
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -60,6 +67,13 @@ export default function LoginPage() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!validateEmail(email)) {
+      setEmailError(true);
+      return;
+    }
+
+    setEmailError(false);
+
     try {
       const response = await axios.post(`http://localhost:3001/api/login`, { email, senha });
       dispatch(loginSuccess({
@@ -91,6 +105,8 @@ export default function LoginPage() {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+                error={emailError}
+                helperText={emailError ? "Por favor insira um endereço de e-mail válido." : ""} // Mensagem de erro
                 variant="outlined"
                 margin="normal"
                 required

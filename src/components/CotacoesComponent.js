@@ -5,9 +5,6 @@ import MoneyIcon from '@mui/icons-material/Money';
 const CotacoesComponent = ({ cotacoes, isLoading, error }) => {
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h5" gutterBottom>
-        Os preços das criptomoedas estão em constante mudança.<br/>Confira as cotações atualizadas para o Bitcoin (BTC):
-      </Typography>
       {isLoading && <Typography>Carregando cotações...</Typography>}
       {error && <Typography color="error">Erro: {error}</Typography>}
       {cotacoes.bpi && (
