@@ -9,7 +9,7 @@ const config = require('../config.json');
 
 const PORT = config.Port || 3001;
 const SECRET_KEY = config.Key || '1234567890';
-const useremail = config.UserEmail || ""
+const useremail = config.UserEmail || "admin@admin.com"
 const userpass = config.Password || "admin@admin.com"
 const username = config.UserName || "Administrator"
 
