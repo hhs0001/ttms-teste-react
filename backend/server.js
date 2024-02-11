@@ -13,6 +13,14 @@ const useremail = config.UserEmail || ""
 const userpass = config.Password || "admin@admin.com"
 const username = config.UserName || "Administrator"
 
+const rateLimit = require('express-rate-limit');
+
+// Defina o limite de solicitações para cada IP a cada 15 minutos
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutos
+  max: 100 // limite cada IP para 100 solicitações por janela
+});
+
 app.use(cors());
 app.use(express.json());
 
@@ -66,7 +74,7 @@ app.post('/api/login', (req, res) => {
 });
 
 
-app.get('/api/coindesk', verificaToken, async (req, res) => {
+app.get('/api/coindesk', limiter, verificaToken, async (req, res) => {
     try {
         const { data: responseData } = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json');
 
